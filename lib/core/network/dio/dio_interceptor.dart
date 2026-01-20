@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flowery/feature/auth/presentation/state/auth_cubit.dart';
+import '../../dependency_injection/di.dart';
 import '../api_constant.dart';
 
 class DioInterceptor extends Interceptor {
@@ -7,7 +9,8 @@ class DioInterceptor extends Interceptor {
   final Future<String?> Function() getRefreshToken;
   final Future<void> Function(String) saveAccessToken;
   final Future<void> Function(String) saveRefreshToken;
-  final Future<Response<dynamic>> Function(String, Map<String, dynamic>) refreshTokenCall;
+  final Future<Response<dynamic>> Function(String, Map<String, dynamic>)
+  refreshTokenCall;
 
   DioInterceptor({
     required this.getAccessToken,
@@ -24,6 +27,12 @@ class DioInterceptor extends Interceptor {
       RequestOptions options,
       RequestInterceptorHandler handler,
       ) async {
+    final authCubit = getIt<AuthCubit>();
+
+    if (authCubit.state.authMode != AuthMode.authenticated) {
+      return handler.next(options);
+    }
+
     final token = await getAccessToken();
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
@@ -34,10 +43,9 @@ class DioInterceptor extends Interceptor {
 
   @override
   Future<void> onError(
-      DioException err,
-      ErrorInterceptorHandler handler,
-      ) async {
-
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     if (_shouldRefreshToken(err)) {
       try {
         final newToken = await _handleTokenRefresh();
@@ -53,7 +61,8 @@ class DioInterceptor extends Interceptor {
   }
 
   bool _shouldRefreshToken(DioException err) {
-    return err.response?.statusCode == 401;
+    return err.response?.statusCode == 401 &&
+        getIt<AuthCubit>().state.authMode == AuthMode.authenticated;
   }
 
   Future<String?> _handleTokenRefresh() async {
@@ -71,10 +80,9 @@ class DioInterceptor extends Interceptor {
         return null;
       }
 
-      final res = await refreshTokenCall(
-        ApiConstants.refreshToken,
-        {'refresh_token': refresh},
-      );
+      final res = await refreshTokenCall(ApiConstants.refreshToken, {
+        'refresh_token': refresh,
+      });
 
       if (res.statusCode == 200) {
         final newAccess = res.data['data_source']['access_token'];
@@ -97,12 +105,12 @@ class DioInterceptor extends Interceptor {
   }
 
   Future<Response<dynamic>> _retryRequest(
-      RequestOptions requestOptions,
-      String newToken,
-      ) async {
+    RequestOptions requestOptions,
+    String newToken,
+  ) async {
     requestOptions.headers['Authorization'] = 'Bearer $newToken';
 
-    final dio = Dio();
+    final dio = getIt<Dio>();
 
     return dio.request(
       requestOptions.path,

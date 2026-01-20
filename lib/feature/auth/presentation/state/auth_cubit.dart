@@ -7,6 +7,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/bloc_status/bloc_status.dart';
+import '../../../../core/dependency_injection/di.dart';
+import '../../../../core/storage/sharedpreferences_helper.dart';
 import '../../data/model/login/user_response_model.dart';
 import '../../data/model/register/register_response_model.dart';
 
@@ -69,5 +71,11 @@ class AuthCubit extends Cubit<AuthState> {
           ),
         );
     }
+  }
+
+  // ======================== logout ================================
+  Future<void> logout() async {
+    await getIt<SharedPreferencesHelper>().clearToken();
+    emit(AuthState());
   }
 }

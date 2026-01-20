@@ -16,6 +16,7 @@ import 'package:google_sign_in/google_sign_in.dart' as _i116;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i973;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../feature/auth/data/data_source/remote/auth_data_source.dart'
     as _i708;
@@ -27,23 +28,29 @@ import '../../feature/auth/presentation/state/auth_cubit.dart' as _i690;
 import '../network/api_services.dart' as _i804;
 import '../network/dio/dio_factory.dart' as _i638;
 import '../network/network_info.dart' as _i932;
+import '../storage/sharedpreferences_helper.dart' as _i44;
 import 'register_module.dart' as _i291;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     final dioFactory = _$DioFactory();
     final networkModule = _$NetworkModule();
-    gh.lazySingleton<_i59.FirebaseAuth>(() => registerModule.firebaseAuth);
-    gh.lazySingleton<_i116.GoogleSignIn>(() => registerModule.googleSignIn);
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => registerModule.prefs,
+      preResolve: true,
+    );
     gh.lazySingleton<_i361.Dio>(() => dioFactory.dio());
     gh.lazySingleton<_i973.InternetConnectionChecker>(
       () => networkModule.instance,
+    );
+    gh.lazySingleton<_i44.SharedPreferencesHelper>(
+      () => _i44.SharedPreferencesHelper(gh<_i460.SharedPreferences>()),
     );
     gh.factory<_i932.NetworkInfo>(
       () => _i932.NetworkInfoImpl(
@@ -65,7 +72,8 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$RegisterModule extends _i291.RegisterModule {}
+class _$RegisterModule extends _i44.RegisterModule {}
+
 
 class _$DioFactory extends _i638.DioFactory {}
 

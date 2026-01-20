@@ -5,9 +5,8 @@ import 'package:device_preview/device_preview.dart';
 import 'core/dependency_injection/di.dart';
 import 'flowery_app.dart';
 
-void main() async{
+void main() async {
   // initialize firebase
-  // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // // start crashlytics implementation
   // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -16,16 +15,15 @@ void main() async{
   //   return true;
   // };
   // end crashlytics implementation
-   configureDependencies();
+  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
       builder: (context) => const FloweryApp(),
     ),
   );
-  runApp(const FloweryApp());
 }
-
 
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
