@@ -2,7 +2,7 @@ import 'package:flowery/core/route/routes_names.dart';
 import 'package:flowery/feature/auth/presentation/ui/login/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import '../../feature/auth/presentation/ui/forget_password/forget_password_screen.dart';
-import '../../feature/auth/presentation/ui/register/register_screen.dart';
+import '../../feature/auth/presentation/ui/register/screens/register_screen.dart';
 import '../../feature/home_screen.dart';
 
 class RouteGenerator {

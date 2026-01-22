@@ -29,5 +29,15 @@
   "unauthorized": "Unauthorized",
   "forbidden": "Forbidden",
   "resource_not_found": "Resource not found",
-  "login_successfully": "Login Successfully"
+  "login_successfully": "Login Successfully",
+  "first_name": "First name",
+  "last_name": "Last name",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "agree_creating_account" : "Creating an account, you agree to",
+  "terms_and_conditions": "Terms and Conditions",
+  "already_have_account": "already have account?",
+  "select_gender": "please select gender",
+  "register_successfully": "Register Successfully"
 }

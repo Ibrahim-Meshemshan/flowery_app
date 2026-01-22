@@ -44,7 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             login: BlocStatus.error(
-              message: result.apiErrorModel.messageKey,
+              message: result.apiErrorModel.message,
             ),
           ),
         );
@@ -69,7 +69,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             register: BlocStatus.error(
-              message: result.apiErrorModel.messageKey,
+              message: result.apiErrorModel.message,
             ),
           ),
         );

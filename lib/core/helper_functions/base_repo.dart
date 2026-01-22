@@ -14,7 +14,7 @@ abstract class BaseRepo {
   Future<ApiResult<T>> callApi<T>(Future<T> Function() apiCall) async {
     if (!await networkInfo.isConnected) {
       return ApiErrorResult(
-        apiErrorModel: ApiErrorModel(messageKey: 'no_internet_connection'),
+        apiErrorModel: ApiErrorModel(message: 'no_internet_connection'),
       );
     }
 

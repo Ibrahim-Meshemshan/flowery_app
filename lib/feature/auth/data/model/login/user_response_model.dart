@@ -1,7 +1,6 @@
 import 'package:flowery/feature/auth/data/model/login/user_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../register/register_response_model.dart';
 
 part 'user_response_model.g.dart';
 

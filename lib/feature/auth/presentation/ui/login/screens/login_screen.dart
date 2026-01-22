@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   state.login.data.token,
                 );
               }
-              NavigatorService.pushNamed(RoutesNames.home);
+              NavigatorService.pushReplacementNamed(RoutesNames.home);
               AppUtils.snackBar(
                 context: context,
                 message: 'login_successfully'.tr(context),
