@@ -10,9 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
-import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
-import 'package:google_sign_in/google_sign_in.dart' as _i116;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i973;
@@ -24,12 +22,13 @@ import '../../feature/auth/data/data_source/remote/auth_remote_data_source.dart'
     as _i921;
 import '../../feature/auth/data/repo/auth_repository_impl.dart' as _i33;
 import '../../feature/auth/domain/repo/auth_repository.dart' as _i767;
+import '../../feature/auth/domain/usecase/login_use_case.dart' as _i805;
+import '../../feature/auth/domain/usecase/register_use_case.dart' as _i717;
 import '../../feature/auth/presentation/state/auth_cubit.dart' as _i690;
 import '../network/api_services.dart' as _i804;
 import '../network/dio/dio_factory.dart' as _i638;
 import '../network/network_info.dart' as _i932;
 import '../storage/sharedpreferences_helper.dart' as _i44;
-import 'register_module.dart' as _i291;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -67,13 +66,23 @@ extension GetItInjectableX on _i174.GetIt {
         networkInfo: gh<_i932.NetworkInfo>(),
       ),
     );
-    gh.factory<_i690.AuthCubit>(() => _i690.AuthCubit(gh<_i767.AuthRepo>()));
+    gh.factory<_i805.LoginUseCase>(
+      () => _i805.LoginUseCase(gh<_i767.AuthRepo>()),
+    );
+    gh.factory<_i717.RegisterUseCase>(
+      () => _i717.RegisterUseCase(gh<_i767.AuthRepo>()),
+    );
+    gh.factory<_i690.AuthCubit>(
+      () => _i690.AuthCubit(
+        gh<_i805.LoginUseCase>(),
+        gh<_i717.RegisterUseCase>(),
+      ),
+    );
     return this;
   }
 }
 
 class _$RegisterModule extends _i44.RegisterModule {}
-
 
 class _$DioFactory extends _i638.DioFactory {}
 

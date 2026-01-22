@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (state.login.isError) {
               AppUtils.snackBar(
                 context: context,
-                message: state.login.errorMessage ?? 'as',
+                message: state.login.errorMessage?.tr(context) ?? '',
                 type: SnackType.error,
               );
             }
@@ -141,9 +141,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           CustomTextButton(
                             isUnderlined: true,
                             text: 'forget_password'.tr(context),
-                            onPressed: () => NavigatorService.pushNamed(
-                              RoutesNames.forgetPassword,
-                            ),
+                            onPressed: () =>
+                                NavigatorService.pushNamed(
+                                  RoutesNames.forgetPassword,
+                                ),
                           ),
                         ],
                       ),
@@ -185,9 +186,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             underlineColor: AppColors.primaryColor,
                             color: AppColors.primaryColor,
                             text: 'register'.tr(context),
-                            onPressed: () => NavigatorService.pushNamed(
-                              RoutesNames.register,
-                            ),
+                            onPressed: () =>
+                                NavigatorService.pushNamed(
+                                  RoutesNames.register,
+                                ),
                           ),
                         ],
                       ),

@@ -1,11 +1,16 @@
-class LoginRequest {
+import 'package:equatable/equatable.dart';
+
+class LoginRequest extends Equatable {
   final String email;
   final String password;
 
-  LoginRequest({required this.email, required this.password});
+  const LoginRequest({required this.email, required this.password});
 
   // to json
   Map<String, dynamic> toJson() {
     return {'email': email, 'password': password};
   }
+
+  @override
+  List<Object?> get props => [email, password];
 }
