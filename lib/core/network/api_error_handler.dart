@@ -1,8 +1,5 @@
-import 'dart:io';
-import 'package:dio/dio.dart';
-import 'api_error_model.dart';
-
 // class ApiErrorHandler {
+// todo: this error handler for zad project
 //   static ApiErrorModel handle(dynamic error) {
 //     if (_isNoInternetError(error)) {
 //       return ApiErrorModel(message: 'S.current.noConnection');
@@ -64,33 +61,105 @@ import 'api_error_model.dart';
 //     );
 //   }
 // }
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+
+import 'api_error_model.dart';
+// class ApiErrorHandler {
+//   static ApiErrorModel handle(dynamic error) {
+//     final context = navigatorKey.currentState!.context;
+//     if (error is DioException) {
+//       switch (error.type) {
+//         case DioExceptionType.connectionError:
+//         case DioExceptionType.connectionTimeout:
+//         case DioExceptionType.sendTimeout:
+//         case DioExceptionType.receiveTimeout:
+//           return ApiErrorModel(message: ('no_internet_connection').tr(context));
+//
+//         case DioExceptionType.badResponse:
+//           return _handleBadResponse(error, context);
+//
+//         case DioExceptionType.unknown:
+//           if (_isNoInternetError(error.error)) {
+//             return ApiErrorModel(message: ('no_internet_connection').tr(context));
+//           }
+//           return ApiErrorModel(message: ('unexpected_error').tr(context));
+//
+//         default:
+//           return ApiErrorModel(message: ('unexpected_error').tr(context));
+//       }
+//     } else if (_isNoInternetError(error)) {
+//       return ApiErrorModel(message: ('no_internet_connection').tr(context));
+//     } else {
+//       return ApiErrorModel(message: ('unexpected_error').tr(context));
+//     }
+//   }
+//
+//   static bool _isNoInternetError(dynamic error) {
+//     return error is SocketException ||
+//         error is HttpException ||
+//         error is HandshakeException;
+//   }
+//
+//   static ApiErrorModel _handleBadResponse(DioException error, BuildContext context) {
+//     final statusCode = error.response?.statusCode;
+//     final responseData = error.response?.data;
+//
+//     if (responseData != null && responseData is Map<String, dynamic>) {
+//       return _handleError(responseData, context);
+//     }
+//
+//     switch (statusCode) {
+//       case 400:
+//         return ApiErrorModel(message: ('badRequest').tr(context));
+//       case 401:
+//         return ApiErrorModel(message: ('unauthorized').tr(context));
+//       case 403:
+//         return ApiErrorModel(message: ('forbidden').tr(context));
+//       case 404:
+//         return ApiErrorModel(message: ('resource_not_found').tr(context));
+//       case 500:
+//         return ApiErrorModel(message: ('unexpected_error').tr(context));
+//       default:
+//         return ApiErrorModel(message: ('unexpected_error').tr(context));
+//     }
+//   }
+//
+//   static ApiErrorModel _handleError(dynamic data, BuildContext context) {
+//     return ApiErrorModel(
+//       message: data['message'] ?? ('unexpected_error').tr(context),
+//       status: data['status']?.toString(),
+//       data: data['data'],
+//     );
+//   }
+// }
+
+/// A general representation of an API error without context.
+/// messageKey: can be translated in UI layer.
+
+/// A robust API error handler that does NOT depend on Flutter UI context.
+/// It categorizes common error cases from client and server.
 class ApiErrorHandler {
   static ApiErrorModel handle(dynamic error) {
-    if (error is DioException) {
-      switch (error.type) {
-        case DioExceptionType.connectionError:
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.sendTimeout:
-        case DioExceptionType.receiveTimeout:
-          return ApiErrorModel(message: 'S.current.noConnection');
-
-        case DioExceptionType.badResponse:
-          return _handleBadResponse(error);
-
-        case DioExceptionType.unknown:
-          if (_isNoInternetError(error.error)) {
-            return ApiErrorModel(message: 'S.current.noConnection');
-          }
-          return ApiErrorModel(message: 'S.current.unexpectedError');
-
-        default:
-          return ApiErrorModel(message: 'S.current.unexpectedError');
-      }
-    } else if (_isNoInternetError(error)) {
-      return ApiErrorModel(message: 'S.current.noConnection');
-    } else {
-      return ApiErrorModel(message: 'S.current.unexpectedError');
+    /// Network-level errors
+    if (_isNoInternetError(error)) {
+      return ApiErrorModel(messageKey: 'no_internet_connection');
     }
+
+    /// Dio-specific errors
+    if (error is DioException) {
+      return _handleDioException(error);
+    }
+
+    /// JSON or parsing problems
+    if (error is FormatException) {
+      return ApiErrorModel(messageKey: 'bad_response_format');
+    }
+
+    /// Fallback for unexpected errors
+    return ApiErrorModel(messageKey: 'unexpected_error');
   }
 
   static bool _isNoInternetError(dynamic error) {
@@ -99,35 +168,53 @@ class ApiErrorHandler {
         error is HandshakeException;
   }
 
-  static ApiErrorModel _handleBadResponse(DioException error) {
+  static ApiErrorModel _handleDioException(DioException error) {
     final statusCode = error.response?.statusCode;
-    final responseData = error.response?.data;
 
-    if (responseData != null && responseData is Map<String, dynamic>) {
-      return _handleError(responseData);
+    /// if no response, it might be network or server unreachable
+    if (statusCode == null) {
+      return ApiErrorModel(messageKey: 'server_unreachable');
     }
 
-    switch (statusCode) {
-      case 400:
-        return ApiErrorModel(message: 'S.current.badRequest');
-      case 401:
-        return ApiErrorModel(message: 'S.current.unauthorized');
-      case 403:
-        return ApiErrorModel(message: 'S.current.forbidden');
-      case 404:
-        return ApiErrorModel(message: 'S.current.resourceNotFound');
-      case 500:
-        return ApiErrorModel(message: 'S.current.serverError');
-      default:
-        return ApiErrorModel(message: 'S.current.unexpectedError');
+    /// Map HTTP status codes to message keys
+    if (statusCode >= 400 && statusCode < 500) {
+      return ApiErrorModel(
+        messageKey: _clientErrorMessage(statusCode),
+        statusCode: statusCode,
+        data: error.response?.data,
+      );
     }
+
+    if (statusCode >= 500) {
+      return ApiErrorModel(
+        messageKey: 'server_error',
+        statusCode: statusCode,
+        data: error.response?.data,
+      );
+    }
+
+    /// Default if not classified
+    return ApiErrorModel(
+      messageKey: 'unexpected_error',
+      statusCode: statusCode,
+      data: error.response?.data,
+    );
   }
 
-  static ApiErrorModel _handleError(dynamic data) {
-    return ApiErrorModel(
-      message: data['message'] ?? 'S.current.unexpectedError',
-      status: data['status']?.toString(),
-      data: data['data'],
-    );
+  static String _clientErrorMessage(int statusCode) {
+    switch (statusCode) {
+      case 400:
+        return 'bad_request';
+      case 401:
+        return 'unauthorized';
+      case 403:
+        return 'forbidden';
+      case 404:
+        return 'resource_not_found';
+      case 422:
+        return 'validation_error';
+      default:
+        return 'client_error';
+    }
   }
 }

@@ -5,26 +5,26 @@ ApiErrorModel apiErrorModelFromJson(String str) => ApiErrorModel.fromJson(json.d
 String apiErrorModelToJson(ApiErrorModel data) => json.encode(data.toJson());
 
 class ApiErrorModel {
-  String? status;
-  dynamic data;
-  String? message;
+  final String messageKey;
+  final int? statusCode;
+  final dynamic data;
 
   ApiErrorModel({
-     this.status,
-     this.data,
-     this.message,
+    required this.messageKey,
+    this.statusCode,
+    this.data,
   });
 
   factory ApiErrorModel.fromJson(Map<String, dynamic> json) => ApiErrorModel(
-    status: json["status"],
+    statusCode: json["status"],
     data: json["data_source"],
-    message: json["message"],
+    messageKey: json["message"],
   );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
+    "status": statusCode,
     "data_source": data,
-    "message": message,
+    "message": messageKey,
   };
 }
 

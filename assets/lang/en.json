@@ -1,5 +1,5 @@
 {
-  "welcome_back": "Welcome Back",
+  "welcome_back": "Welcome",
   "home": "home",
   "settings": "settings",
   "field_required": "This field is required",
@@ -20,7 +20,14 @@
   "forget_password": "Forget password?",
   "remember_me": "Remember me",
   "continue_as_guest": "Continue as guest",
-  "don't_have_account" : "Don't have account?",
+  "don't_have_account": "Don't have account?",
   "register": "sign up",
-  "please_login_first": "Please login first to complete the action"
+  "please_login_first": "Please login first to complete the action",
+  "no_internet_connection": "No internet connection",
+  "unexpected_error": "Unexpected error",
+  "badRequest": "Bad request",
+  "unauthorized": "Unauthorized",
+  "forbidden": "Forbidden",
+  "resource_not_found": "Resource not found",
+  "login_successfully": "Login Successfully"
 }

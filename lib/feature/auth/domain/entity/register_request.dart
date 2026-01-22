@@ -1,5 +1,5 @@
 class RegisterRequest {
-  final String firsName;
+  final String firstName;
   final String lastName;
   final String email;
   final String password;
@@ -8,7 +8,7 @@ class RegisterRequest {
   final String gender;
 
   RegisterRequest({
-    required this.firsName,
+    required this.firstName,
     required this.lastName,
     required this.email,
     required this.password,
@@ -19,7 +19,7 @@ class RegisterRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      'firstName': firsName,
+      'firstName': firstName,
       'lastName': lastName,
       'email': email,
       'password': password,

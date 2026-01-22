@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import '../network/api_error_handler.dart';
+import '../network/api_error_model.dart';
 import '../network/api_result.dart';
 import '../network/network_info.dart';
 
@@ -13,7 +14,7 @@ abstract class BaseRepo {
   Future<ApiResult<T>> callApi<T>(Future<T> Function() apiCall) async {
     if (!await networkInfo.isConnected) {
       return ApiErrorResult(
-        apiErrorModel: ApiErrorHandler.handle(SocketException("No Internet")),
+        apiErrorModel: ApiErrorModel(messageKey: 'no_internet_connection'),
       );
     }
 

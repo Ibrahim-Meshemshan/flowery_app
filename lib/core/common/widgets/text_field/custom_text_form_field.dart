@@ -23,6 +23,7 @@ class CustomTextFormField extends StatefulWidget {
     this.isPhone = false,
     this.isEmail = false,
     this.maxLines,
+    this.enabled = true
   });
 
   // Text
@@ -46,6 +47,7 @@ class CustomTextFormField extends StatefulWidget {
   final void Function(String)? onChanged;
   final TextEditingController? controller;
   final int? maxLines;
+  final bool? enabled;
 
   // Types
   final bool isPassword;
@@ -62,6 +64,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled ?? true,
       cursorColor: AppColors.primaryColor,
       minLines: 1,
       maxLines: widget.isPassword ? 1 : widget.maxLines ?? 1,

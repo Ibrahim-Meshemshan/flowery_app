@@ -1,7 +1,7 @@
 {
-  "welcome_back": " مرحباً بعودتك",
-  "home": " الرئيسية",
-  "settings": " الإعدادت",
+  "welcome_back": "مرحباً بك",
+  "home": "الرئيسية",
+  "settings": "الإعدادت",
   "field_required": "الحقل مطلوب",
   "enter_valid_email": "الرجاء إدخال بريد إلكتروني صالح",
   "password_invalid": "على الأقل 8 أحرف وتتضمّن أحرف كبيرة وصغيرة وأرقام ورموز",
@@ -20,7 +20,14 @@
   "forget_password": "نسيت كلمة المرور؟",
   "remember_me": "تذكرني",
   "continue_as_guest": "تصفح فقط",
-  "don't_have_account" : "ليس لديك حساب؟",
+  "don't_have_account": "ليس لديك حساب؟",
   "register": "أنشئ حساب",
-  "please_login_first": "يرجى تسجيل الدخول لإكمال االعملية"
+  "please_login_first": "يرجى تسجيل الدخول لإكمال االعملية",
+  "no_internet_connection": "لا يوجد اتصال بالإنترنت",
+  "unexpected_error": "حدث خطأ غير متوقع",
+  "badRequest": "طلب غير صالح",
+  "unauthorized": "غير مصرح",
+  "forbidden": "ممنوع",
+  "resource_not_found": "المورد غير موجود",
+  "login_successfully": "تم تسجيل الدخول بنجاح"
 }
