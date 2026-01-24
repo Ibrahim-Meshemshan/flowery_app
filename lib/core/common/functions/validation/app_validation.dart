@@ -34,7 +34,7 @@ class AppValidation {
     if (val == null ||val.trim().isEmpty) {
       return 'field_required'.tr(context);
     } else if (val != password) {
-      return "passwords_d'not_match".tr(context);
+      return "passwords_do_not_match".tr(context);
     } else {
       return null;
     }
@@ -66,8 +66,8 @@ class AppValidation {
       return 'field_required'.tr(context);
     } else if (int.tryParse(value.trim()) == null) {
       return 'numbers_only'.tr(context);
-    } else if (value.trim().length != 10) {
-      return 'must_equal_10_digit'.tr(context);
+    } else if (value.trim().length != 13) {
+      return 'must_equal_12_digit'.tr(context);
     } else {
       return null;
     }

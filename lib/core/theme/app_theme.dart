@@ -20,11 +20,11 @@ class AppTheme {
     textTheme: TextTheme(
       titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-      titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+      titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
 
-      bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-      bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-      bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+      bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
     ),
   );
 

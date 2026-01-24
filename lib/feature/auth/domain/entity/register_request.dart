@@ -24,8 +24,8 @@ class RegisterRequest {
       'email': email,
       'password': password,
       'rePassword': confirmPassword,
-      'phone': confirmPassword,
-      'gender': confirmPassword,
+      'phone': phone,
+      'gender': gender,
     };
   }
 }

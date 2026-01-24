@@ -8,7 +8,7 @@
   "passwords_do_not_match": "كلمتا المرور غير متطابقتين",
   "enter_valid_username": "الرجاء إدخال اسم مستخدم صالح",
   "numbers_only": "يرجى إدخال أرقام فقط",
-  "must_equal_10_digit": "يجب أن يتكون الرقم من 10 أرقام",
+  "must_equal_12_digit": "يجب أن يتكون الرقم من 12 أرقام",
   "phone_number": "رقم الموبايل",
   "email": "البريد الالكتروني",
   "password": "كلمة المرور",
@@ -29,5 +29,15 @@
   "unauthorized": "غير مصرح",
   "forbidden": "ممنوع",
   "resource_not_found": "المورد غير موجود",
-  "login_successfully": "تم تسجيل الدخول بنجاح"
+  "login_successfully": "تم تسجيل الدخول بنجاح",
+  "first_name": "الاسم",
+  "last_name": "الكنية",
+  "gender": "الجنس",
+  "male": "ذكر",
+  "female": "أنثى",
+  "agree_creating_account" : "بإنشاء حساب، فإنك توافق على",
+  "terms_and_conditions": "الشروط والأحكام",
+  "already_have_account": "تمتلك حساب؟",
+  "select_gender": "يرجى تحديد الجنس",
+  "register_successfully": "تم تسجيل الدخول بنجاح"
 }

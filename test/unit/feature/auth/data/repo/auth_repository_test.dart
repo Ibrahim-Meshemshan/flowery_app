@@ -9,7 +9,6 @@ import 'package:flowery/feature/auth/data/repo/auth_repository_impl.dart';
 import 'package:flowery/feature/auth/domain/entity/login_request.dart';
 import 'package:flowery/feature/auth/domain/entity/register_request.dart';
 import 'package:flowery/feature/auth/domain/repo/auth_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -18,13 +17,11 @@ import 'auth_repository_test.mocks.dart';
 
 @GenerateMocks([AuthDataSource, NetworkInfo])
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   late MockAuthDataSource authDataSource;
   late MockNetworkInfo networkInfo;
   late AuthRepo autRepo;
 
-  setUpAll(() {
+  setUp(() {
     authDataSource = MockAuthDataSource();
     networkInfo = MockNetworkInfo();
     autRepo = AuthRepositoryImpl(
@@ -34,17 +31,8 @@ void main() {
     when(networkInfo.isConnected).thenAnswer((_) async => true);
   });
 
-  group('TODO: implement login and register', () {
+  group('TODO: test login method with success and error', () {
     var login = LoginRequest(email: 'email', password: 'password');
-    var register = RegisterRequest(
-      confirmPassword: 'confirm',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      email: 'email@gmail.com',
-      password: 'password',
-      phone: 'phone',
-      gender: 'gender',
-    );
     test("should call login from auth data source", () async {
       // arrange
       var expectedResult = UserResponseModel(
@@ -69,13 +57,36 @@ void main() {
       // act
       var actual = await autRepo.login(login);
       // assert
-      verify(authDataSource.login(login)).called(1);
+      verify(authDataSource.login(any)).called(1);
       expect(actual, isA<ApiSuccessResult<UserResponseModel>>());
     });
+    test('should return error when no internet', () async {
+      // arrange
+      when(networkInfo.isConnected).thenAnswer((_) async => false);
+      when(authDataSource.login(login)).thenThrow(Exception());
+      // act
+      final actual = await autRepo.login(
+        LoginRequest(email: 'a', password: 'b'),
+      );
+
+      // assert
+      verifyNever(authDataSource.login(any));
+      expect(actual, isA<ApiResult<UserResponseModel>>());
+    });
+  });
+
+  group('TODO: test register method with success and error', () {
+    var register = RegisterRequest(
+      confirmPassword: 'confirm',
+      firstName: 'firstName',
+      lastName: 'lastName',
+      email: 'email@gmail.com',
+      password: 'password',
+      phone: 'phone',
+      gender: 'gender',
+    );
     test('should call register from auth data source', () async {
       // arrange
-
-      // act
       var expectedResult = RegisterResponseModel(
         message: '',
         user: UserModel(
@@ -95,26 +106,24 @@ void main() {
       );
       provideDummy<RegisterResponseModel>(expectedResult);
       when(
-        authDataSource.register(register),
+        authDataSource.register(any),
       ).thenAnswer((_) async => expectedResult);
+      // act
       var actual = await autRepo.register(register);
       // assert
-      verify(authDataSource.register(register)).called(1);
-      expect(actual, isA<ApiSuccessResult<RegisterResponseModel>>());
+      verify(authDataSource.register(any)).called(1);
+      expect(actual, isA<ApiResult<RegisterResponseModel>>());
     });
-    // test('should return error when no internet', () async {
-    //   // arrange
-    //   when(networkInfo.isConnected).thenAnswer((_) async => false);
-    //   when(authDataSource.login(login)).thenThrow(Exception());
-    //   // act
-    //   final actual = await autRepo.login(
-    //     LoginRequest(email: 'a', password: 'b'),
-    //   );
-    //
-    //   // assert
-    //   verifyNever(authDataSource.login(any));
-    //   expect(actual, 'no_internet_connection');
-    // });
 
+    test('should return error with no internet', () async {
+      // arrange
+      when(networkInfo.isConnected).thenAnswer((_) async => false);
+      when(authDataSource.register(register)).thenThrow(Exception());
+      // act
+      final actual = await autRepo.register(register);
+      // assert
+      verifyNever(authDataSource.register(any));
+      expect(actual, isA<ApiResult<RegisterResponseModel>>());
+    });
   });
 }

@@ -143,23 +143,19 @@ import 'api_error_model.dart';
 /// It categorizes common error cases from client and server.
 class ApiErrorHandler {
   static ApiErrorModel handle(dynamic error) {
-    /// Network-level errors
     if (_isNoInternetError(error)) {
-      return ApiErrorModel(messageKey: 'no_internet_connection');
+      return ApiErrorModel(message: 'no_internet_connection');
     }
 
-    /// Dio-specific errors
     if (error is DioException) {
       return _handleDioException(error);
     }
 
-    /// JSON or parsing problems
     if (error is FormatException) {
-      return ApiErrorModel(messageKey: 'bad_response_format');
+      return ApiErrorModel(message: 'bad_response_format');
     }
 
-    /// Fallback for unexpected errors
-    return ApiErrorModel(messageKey: 'unexpected_error');
+    return ApiErrorModel(message: 'unexpected_error');
   }
 
   static bool _isNoInternetError(dynamic error) {
@@ -169,52 +165,32 @@ class ApiErrorHandler {
   }
 
   static ApiErrorModel _handleDioException(DioException error) {
-    final statusCode = error.response?.statusCode;
+    final response = error.response;
+    final statusCode = response?.statusCode;
 
-    /// if no response, it might be network or server unreachable
-    if (statusCode == null) {
-      return ApiErrorModel(messageKey: 'server_unreachable');
+    if (response == null || statusCode == null) {
+      return ApiErrorModel(message: 'server_unreachable');
     }
 
-    /// Map HTTP status codes to message keys
-    if (statusCode >= 400 && statusCode < 500) {
-      return ApiErrorModel(
-        messageKey: _clientErrorMessage(statusCode),
-        statusCode: statusCode,
-        data: error.response?.data,
-      );
+    if (response.data != null && response.data is Map<String, dynamic>) {
+      return ApiErrorModel.fromJson(response.data, statusCode: statusCode);
     }
 
-    if (statusCode >= 500) {
-      return ApiErrorModel(
-        messageKey: 'server_error',
-        statusCode: statusCode,
-        data: error.response?.data,
-      );
-    }
-
-    /// Default if not classified
     return ApiErrorModel(
-      messageKey: 'unexpected_error',
+      message: _clientErrorMessage(statusCode),
       statusCode: statusCode,
-      data: error.response?.data,
     );
   }
 
   static String _clientErrorMessage(int statusCode) {
     switch (statusCode) {
-      case 400:
-        return 'bad_request';
-      case 401:
-        return 'unauthorized';
-      case 403:
-        return 'forbidden';
-      case 404:
-        return 'resource_not_found';
-      case 422:
-        return 'validation_error';
-      default:
-        return 'client_error';
+      case 400: return 'bad_request';
+      case 401: return 'unauthorized';
+      case 403: return 'forbidden';
+      case 404: return 'resource_not_found';
+      case 422: return 'validation_error';
+      case 500: return 'internal_server_error';
+      default: return 'something_went_wrong';
     }
   }
 }
