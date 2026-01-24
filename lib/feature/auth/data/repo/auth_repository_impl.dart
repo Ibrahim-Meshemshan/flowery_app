@@ -9,6 +9,7 @@ import '../../domain/entity/register_request.dart';
 import '../../domain/repo/auth_repository.dart';
 import '../data_source/remote/auth_data_source.dart';
 import '../data_source/remote/auth_remote_data_source.dart';
+import '../model/forget_password/otp_response_model.dart';
 
 @Injectable(as: AuthRepo)
 class AuthRepositoryImpl extends BaseRepo implements AuthRepo {
@@ -31,8 +32,8 @@ class AuthRepositoryImpl extends BaseRepo implements AuthRepo {
     return callApi(() => authDataSource.register(register));
   }
 
-  // @override
-  // Future<ApiResult<dynamic>> forgetPassword() {
-  //   return callApi(() => authDataSource.register(register));
-  // }
- }
+  @override
+  Future<ApiResult<OtpResponseModel>> forgetPassword(String email) {
+    return callApi(() => authDataSource.forgetPassword(email));
+  }
+}

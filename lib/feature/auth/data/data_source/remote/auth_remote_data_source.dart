@@ -4,6 +4,7 @@ import 'package:flowery/feature/auth/domain/entity/register_request.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/network/api_services.dart';
 import '../../../domain/entity/login_request.dart';
+import '../../model/forget_password/otp_response_model.dart';
 import '../../model/login/user_response_model.dart';
 import '../../model/register/register_response_model.dart';
 
@@ -33,6 +34,16 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
       data: jsonParams,
     );
     return RegisterResponseModel.fromJson(response.data);
+  }
+
+  // ======================= Forget Password =========================
+  @override
+  Future<OtpResponseModel> forgetPassword(String email) async {
+    final response = await apiService.post(
+      url: ApiConstants.forgetPassword,
+      data: {'email': email},
+    );
+    return OtpResponseModel.fromJson(response.data);
   }
   //
 

@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   state.login.data.token,
                 );
               }
-              NavigatorService.pushNamed(RoutesNames.home);
+              NavigatorService.pushNamed(RoutesNames.homeScreen);
               AppUtils.snackBar(
                 context: context,
                 message: 'login_successfully'.tr(context),
@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: 'continue_as_guest'.tr(context),
                         onPressed: () {
                           context.read<AuthCubit>().enterAsGuest();
-                          NavigatorService.pushNamed(RoutesNames.home);
+                          NavigatorService.pushNamed(RoutesNames.homeScreen);
                         },
                       ),
                       gapH24,
@@ -188,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: 'register'.tr(context),
                             onPressed: () =>
                                 NavigatorService.pushNamed(
-                                  RoutesNames.register,
+                                  RoutesNames.registerScreen,
                                 ),
                           ),
                         ],

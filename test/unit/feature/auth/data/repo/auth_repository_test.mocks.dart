@@ -3,18 +3,20 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
-import 'package:flowery/core/network/network_info.dart' as _i8;
+import 'package:flowery/core/network/network_info.dart' as _i9;
 import 'package:flowery/feature/auth/data/data_source/remote/auth_data_source.dart'
+    as _i5;
+import 'package:flowery/feature/auth/data/model/forget_password/otp_response_model.dart'
     as _i4;
 import 'package:flowery/feature/auth/data/model/login/user_response_model.dart'
     as _i2;
 import 'package:flowery/feature/auth/data/model/register/register_response_model.dart'
     as _i3;
-import 'package:flowery/feature/auth/domain/entity/login_request.dart' as _i6;
+import 'package:flowery/feature/auth/domain/entity/login_request.dart' as _i7;
 import 'package:flowery/feature/auth/domain/entity/register_request.dart'
-    as _i7;
+    as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -44,56 +46,75 @@ class _FakeRegisterResponseModel_1 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeOtpResponseModel_2 extends _i1.SmartFake
+    implements _i4.OtpResponseModel {
+  _FakeOtpResponseModel_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AuthDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthDataSource extends _i1.Mock implements _i4.AuthDataSource {
+class MockAuthDataSource extends _i1.Mock implements _i5.AuthDataSource {
   MockAuthDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.UserResponseModel> login(_i6.LoginRequest? login) =>
+  _i6.Future<_i2.UserResponseModel> login(_i7.LoginRequest? login) =>
       (super.noSuchMethod(
             Invocation.method(#login, [login]),
-            returnValue: _i5.Future<_i2.UserResponseModel>.value(
+            returnValue: _i6.Future<_i2.UserResponseModel>.value(
               _FakeUserResponseModel_0(
                 this,
                 Invocation.method(#login, [login]),
               ),
             ),
           )
-          as _i5.Future<_i2.UserResponseModel>);
+          as _i6.Future<_i2.UserResponseModel>);
 
   @override
-  _i5.Future<_i3.RegisterResponseModel> register(
-    _i7.RegisterRequest? register,
+  _i6.Future<_i3.RegisterResponseModel> register(
+    _i8.RegisterRequest? register,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#register, [register]),
-            returnValue: _i5.Future<_i3.RegisterResponseModel>.value(
+            returnValue: _i6.Future<_i3.RegisterResponseModel>.value(
               _FakeRegisterResponseModel_1(
                 this,
                 Invocation.method(#register, [register]),
               ),
             ),
           )
-          as _i5.Future<_i3.RegisterResponseModel>);
+          as _i6.Future<_i3.RegisterResponseModel>);
+
+  @override
+  _i6.Future<_i4.OtpResponseModel> forgetPassword(String? email) =>
+      (super.noSuchMethod(
+            Invocation.method(#forgetPassword, [email]),
+            returnValue: _i6.Future<_i4.OtpResponseModel>.value(
+              _FakeOtpResponseModel_2(
+                this,
+                Invocation.method(#forgetPassword, [email]),
+              ),
+            ),
+          )
+          as _i6.Future<_i4.OtpResponseModel>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i8.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i9.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<bool> get isConnected =>
+  _i6.Future<bool> get isConnected =>
       (super.noSuchMethod(
             Invocation.getter(#isConnected),
-            returnValue: _i5.Future<bool>.value(false),
+            returnValue: _i6.Future<bool>.value(false),
           )
-          as _i5.Future<bool>);
+          as _i6.Future<bool>);
 }

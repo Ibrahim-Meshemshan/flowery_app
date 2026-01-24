@@ -6,6 +6,8 @@
 import 'dart:async' as _i3;
 
 import 'package:flowery/core/network/api_result.dart' as _i4;
+import 'package:flowery/feature/auth/data/model/forget_password/otp_response_model.dart'
+    as _i10;
 import 'package:flowery/feature/auth/data/model/login/user_response_model.dart'
     as _i5;
 import 'package:flowery/feature/auth/data/model/register/register_response_model.dart'
@@ -70,4 +72,19 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
                 ),
           )
           as _i3.Future<_i4.ApiResult<_i8.RegisterResponseModel>>);
+
+  @override
+  _i3.Future<_i4.ApiResult<_i10.OtpResponseModel>> forgetPassword(
+    String? email,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#forgetPassword, [email]),
+            returnValue: _i3.Future<_i4.ApiResult<_i10.OtpResponseModel>>.value(
+              _i7.dummyValue<_i4.ApiResult<_i10.OtpResponseModel>>(
+                this,
+                Invocation.method(#forgetPassword, [email]),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.ApiResult<_i10.OtpResponseModel>>);
 }

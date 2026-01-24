@@ -17,7 +17,7 @@
   "login": "Login",
   "enter_email": "Enter your email",
   "enter_password": "Enter your password",
-  "forget_password": "Forget password?",
+  "forget_password": "Forget password",
   "remember_me": "Remember me",
   "continue_as_guest": "Continue as guest",
   "don't_have_account": "Don't have account?",
@@ -29,5 +29,8 @@
   "unauthorized": "Unauthorized",
   "forbidden": "Forbidden",
   "resource_not_found": "Resource not found",
-  "login_successfully": "Login Successfully"
+  "login_successfully": "Login Successfully",
+  "enter_your_email_associated": "Please enter your email associated to\n your account",
+  "continuo": "Continuo",
+  "otp_sent_to_your_email": "OTP sent to your email"
 }
