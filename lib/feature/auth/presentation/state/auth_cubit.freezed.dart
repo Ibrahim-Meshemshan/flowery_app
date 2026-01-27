@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AuthState {
 
- AuthMode get authMode; BlocStatus<UserResponseModel> get login; BlocStatus<RegisterResponseModel> get register;
+ AuthMode get authMode; BlocStatus<UserResponseModel> get login; BlocStatus<RegisterResponseModel> get register; BlocStatus<OtpResponseModel> get forgetPassword; BlocStatus<void> get changePassword;
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AuthStateCopyWith<AuthState> get copyWith => _$AuthStateCopyWithImpl<AuthState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.authMode, authMode) || other.authMode == authMode)&&(identical(other.login, login) || other.login == login)&&(identical(other.register, register) || other.register == register));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.authMode, authMode) || other.authMode == authMode)&&(identical(other.login, login) || other.login == login)&&(identical(other.register, register) || other.register == register)&&(identical(other.forgetPassword, forgetPassword) || other.forgetPassword == forgetPassword)&&(identical(other.changePassword, changePassword) || other.changePassword == changePassword));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,authMode,login,register);
+int get hashCode => Object.hash(runtimeType,authMode,login,register,forgetPassword,changePassword);
 
 @override
 String toString() {
-  return 'AuthState(authMode: $authMode, login: $login, register: $register)';
+  return 'AuthState(authMode: $authMode, login: $login, register: $register, forgetPassword: $forgetPassword, changePassword: $changePassword)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $AuthStateCopyWith<$Res>  {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) _then) = _$AuthStateCopyWithImpl;
 @useResult
 $Res call({
- AuthMode authMode, BlocStatus<UserResponseModel> login, BlocStatus<RegisterResponseModel> register
+ AuthMode authMode, BlocStatus<UserResponseModel> login, BlocStatus<RegisterResponseModel> register, BlocStatus<OtpResponseModel> forgetPassword, BlocStatus<void> changePassword
 });
 
 
-$BlocStatusCopyWith<UserResponseModel, $Res> get login;$BlocStatusCopyWith<RegisterResponseModel, $Res> get register;
+$BlocStatusCopyWith<UserResponseModel, $Res> get login;$BlocStatusCopyWith<RegisterResponseModel, $Res> get register;$BlocStatusCopyWith<OtpResponseModel, $Res> get forgetPassword;$BlocStatusCopyWith<void, $Res> get changePassword;
 
 }
 /// @nodoc
@@ -62,12 +62,14 @@ class _$AuthStateCopyWithImpl<$Res>
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? authMode = null,Object? login = null,Object? register = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? authMode = null,Object? login = null,Object? register = null,Object? forgetPassword = null,Object? changePassword = null,}) {
   return _then(_self.copyWith(
 authMode: null == authMode ? _self.authMode : authMode // ignore: cast_nullable_to_non_nullable
 as AuthMode,login: null == login ? _self.login : login // ignore: cast_nullable_to_non_nullable
 as BlocStatus<UserResponseModel>,register: null == register ? _self.register : register // ignore: cast_nullable_to_non_nullable
-as BlocStatus<RegisterResponseModel>,
+as BlocStatus<RegisterResponseModel>,forgetPassword: null == forgetPassword ? _self.forgetPassword : forgetPassword // ignore: cast_nullable_to_non_nullable
+as BlocStatus<OtpResponseModel>,changePassword: null == changePassword ? _self.changePassword : changePassword // ignore: cast_nullable_to_non_nullable
+as BlocStatus<void>,
   ));
 }
 /// Create a copy of AuthState
@@ -87,6 +89,24 @@ $BlocStatusCopyWith<RegisterResponseModel, $Res> get register {
   
   return $BlocStatusCopyWith<RegisterResponseModel, $Res>(_self.register, (value) {
     return _then(_self.copyWith(register: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BlocStatusCopyWith<OtpResponseModel, $Res> get forgetPassword {
+  
+  return $BlocStatusCopyWith<OtpResponseModel, $Res>(_self.forgetPassword, (value) {
+    return _then(_self.copyWith(forgetPassword: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BlocStatusCopyWith<void, $Res> get changePassword {
+  
+  return $BlocStatusCopyWith<void, $Res>(_self.changePassword, (value) {
+    return _then(_self.copyWith(changePassword: value));
   });
 }
 }
@@ -170,10 +190,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AuthMode authMode,  BlocStatus<UserResponseModel> login,  BlocStatus<RegisterResponseModel> register)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AuthMode authMode,  BlocStatus<UserResponseModel> login,  BlocStatus<RegisterResponseModel> register,  BlocStatus<OtpResponseModel> forgetPassword,  BlocStatus<void> changePassword)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AuthState() when $default != null:
-return $default(_that.authMode,_that.login,_that.register);case _:
+return $default(_that.authMode,_that.login,_that.register,_that.forgetPassword,_that.changePassword);case _:
   return orElse();
 
 }
@@ -191,10 +211,10 @@ return $default(_that.authMode,_that.login,_that.register);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AuthMode authMode,  BlocStatus<UserResponseModel> login,  BlocStatus<RegisterResponseModel> register)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AuthMode authMode,  BlocStatus<UserResponseModel> login,  BlocStatus<RegisterResponseModel> register,  BlocStatus<OtpResponseModel> forgetPassword,  BlocStatus<void> changePassword)  $default,) {final _that = this;
 switch (_that) {
 case _AuthState():
-return $default(_that.authMode,_that.login,_that.register);case _:
+return $default(_that.authMode,_that.login,_that.register,_that.forgetPassword,_that.changePassword);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,10 +231,10 @@ return $default(_that.authMode,_that.login,_that.register);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AuthMode authMode,  BlocStatus<UserResponseModel> login,  BlocStatus<RegisterResponseModel> register)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AuthMode authMode,  BlocStatus<UserResponseModel> login,  BlocStatus<RegisterResponseModel> register,  BlocStatus<OtpResponseModel> forgetPassword,  BlocStatus<void> changePassword)?  $default,) {final _that = this;
 switch (_that) {
 case _AuthState() when $default != null:
-return $default(_that.authMode,_that.login,_that.register);case _:
+return $default(_that.authMode,_that.login,_that.register,_that.forgetPassword,_that.changePassword);case _:
   return null;
 
 }
@@ -226,12 +246,14 @@ return $default(_that.authMode,_that.login,_that.register);case _:
 
 
 class _AuthState implements AuthState {
-   _AuthState({this.authMode = AuthMode.guest, this.login = const BlocStatus.initial(), this.register = const BlocStatus.initial()});
+   _AuthState({this.authMode = AuthMode.guest, this.login = const BlocStatus.initial(), this.register = const BlocStatus.initial(), this.forgetPassword = const BlocStatus.initial(), this.changePassword = const BlocStatus.initial()});
   
 
 @override@JsonKey() final  AuthMode authMode;
 @override@JsonKey() final  BlocStatus<UserResponseModel> login;
 @override@JsonKey() final  BlocStatus<RegisterResponseModel> register;
+@override@JsonKey() final  BlocStatus<OtpResponseModel> forgetPassword;
+@override@JsonKey() final  BlocStatus<void> changePassword;
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
@@ -243,16 +265,16 @@ _$AuthStateCopyWith<_AuthState> get copyWith => __$AuthStateCopyWithImpl<_AuthSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.authMode, authMode) || other.authMode == authMode)&&(identical(other.login, login) || other.login == login)&&(identical(other.register, register) || other.register == register));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.authMode, authMode) || other.authMode == authMode)&&(identical(other.login, login) || other.login == login)&&(identical(other.register, register) || other.register == register)&&(identical(other.forgetPassword, forgetPassword) || other.forgetPassword == forgetPassword)&&(identical(other.changePassword, changePassword) || other.changePassword == changePassword));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,authMode,login,register);
+int get hashCode => Object.hash(runtimeType,authMode,login,register,forgetPassword,changePassword);
 
 @override
 String toString() {
-  return 'AuthState(authMode: $authMode, login: $login, register: $register)';
+  return 'AuthState(authMode: $authMode, login: $login, register: $register, forgetPassword: $forgetPassword, changePassword: $changePassword)';
 }
 
 
@@ -263,11 +285,11 @@ abstract mixin class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Re
   factory _$AuthStateCopyWith(_AuthState value, $Res Function(_AuthState) _then) = __$AuthStateCopyWithImpl;
 @override @useResult
 $Res call({
- AuthMode authMode, BlocStatus<UserResponseModel> login, BlocStatus<RegisterResponseModel> register
+ AuthMode authMode, BlocStatus<UserResponseModel> login, BlocStatus<RegisterResponseModel> register, BlocStatus<OtpResponseModel> forgetPassword, BlocStatus<void> changePassword
 });
 
 
-@override $BlocStatusCopyWith<UserResponseModel, $Res> get login;@override $BlocStatusCopyWith<RegisterResponseModel, $Res> get register;
+@override $BlocStatusCopyWith<UserResponseModel, $Res> get login;@override $BlocStatusCopyWith<RegisterResponseModel, $Res> get register;@override $BlocStatusCopyWith<OtpResponseModel, $Res> get forgetPassword;@override $BlocStatusCopyWith<void, $Res> get changePassword;
 
 }
 /// @nodoc
@@ -280,12 +302,14 @@ class __$AuthStateCopyWithImpl<$Res>
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? authMode = null,Object? login = null,Object? register = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? authMode = null,Object? login = null,Object? register = null,Object? forgetPassword = null,Object? changePassword = null,}) {
   return _then(_AuthState(
 authMode: null == authMode ? _self.authMode : authMode // ignore: cast_nullable_to_non_nullable
 as AuthMode,login: null == login ? _self.login : login // ignore: cast_nullable_to_non_nullable
 as BlocStatus<UserResponseModel>,register: null == register ? _self.register : register // ignore: cast_nullable_to_non_nullable
-as BlocStatus<RegisterResponseModel>,
+as BlocStatus<RegisterResponseModel>,forgetPassword: null == forgetPassword ? _self.forgetPassword : forgetPassword // ignore: cast_nullable_to_non_nullable
+as BlocStatus<OtpResponseModel>,changePassword: null == changePassword ? _self.changePassword : changePassword // ignore: cast_nullable_to_non_nullable
+as BlocStatus<void>,
   ));
 }
 
@@ -306,6 +330,24 @@ $BlocStatusCopyWith<RegisterResponseModel, $Res> get register {
   
   return $BlocStatusCopyWith<RegisterResponseModel, $Res>(_self.register, (value) {
     return _then(_self.copyWith(register: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BlocStatusCopyWith<OtpResponseModel, $Res> get forgetPassword {
+  
+  return $BlocStatusCopyWith<OtpResponseModel, $Res>(_self.forgetPassword, (value) {
+    return _then(_self.copyWith(forgetPassword: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BlocStatusCopyWith<void, $Res> get changePassword {
+  
+  return $BlocStatusCopyWith<void, $Res>(_self.changePassword, (value) {
+    return _then(_self.copyWith(changePassword: value));
   });
 }
 }

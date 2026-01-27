@@ -90,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               );
             }
             if (state.register.isSuccess) {
-              NavigatorService.pushReplacementNamed(RoutesNames.home);
+              NavigatorService.pushReplacementNamed(RoutesNames.homeScreen);
               AppUtils.snackBar(
                 context: context,
                 message: 'register_successfully'.tr(context),
@@ -185,7 +185,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             underlineColor: AppColors.primaryColor,
                             color: AppColors.primaryColor,
                             onPressed: () =>
-                                NavigatorService.pushNamed(RoutesNames.login),
+                                NavigatorService.pushNamed(RoutesNames.loginScreen),
                           ),
                         ],
                       ),

@@ -23,15 +23,21 @@ class CustomTextFormField extends StatefulWidget {
     this.isPhone = false,
     this.isEmail = false,
     this.maxLines,
-    this.enabled = true
+    this.enabled = true,
+    this.textAlign,
+    this.textStyle,
+    this.filled,
+    this.fillColor,
+    this.focusColor,
   });
 
   // Text
   final String? hintText;
-  final TextStyle? hintStyle;
+  final TextStyle? hintStyle,textStyle;
   final String? labelText;
   final TextStyle? labelStyle;
-
+  final TextAlign? textAlign;
+  final Color? fillColor,focusColor;
   // Borders
   final InputBorder? errorBorder;
   final InputBorder? enableBorder;
@@ -53,6 +59,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool isPassword;
   final bool isPhone;
   final bool isEmail;
+  final bool? filled;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -64,6 +71,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textAlign: widget.textAlign ?? TextAlign.start,
       enabled: widget.enabled ?? true,
       cursorColor: AppColors.primaryColor,
       minLines: 1,
@@ -73,7 +81,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       onChanged: widget.onChanged,
       obscureText: widget.isPassword && !isPasswordVisible,
       keyboardType: _getKeyboardType(),
-      style: AppTheme.lightMode.textTheme.bodyMedium,
+      style: widget.textStyle ??  AppTheme.lightMode.textTheme.bodyMedium,
       validator: widget.validator,
       onFieldSubmitted: (_) {
         if (widget.nextFocusNode != null) {
@@ -83,6 +91,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         }
       },
       decoration: InputDecoration(
+        filled: widget.filled ?? true,
+        fillColor: widget.fillColor ?? AppColors.whiteColor,
+        focusColor: widget.focusColor,
         label: Text(widget.labelText ?? ''),
         labelStyle:
             widget.labelStyle ??

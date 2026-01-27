@@ -42,7 +42,7 @@ class FloweryApp extends StatelessWidget {
             // theme: AppTheme.lightMode,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: RouteGenerator.getRoute,
-            // initialRoute: RoutesNames.register,
+            // initialRoute: RoutesNames.login,
           );
         },
       ),
