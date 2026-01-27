@@ -2,6 +2,7 @@ import 'package:flowery/core/network/api_result.dart';
 import 'package:flowery/core/network/network_info.dart';
 
 import 'package:flowery/feature/auth/data/data_source/remote/auth_data_source.dart';
+import 'package:flowery/feature/auth/data/model/forget_password/otp_response_model.dart';
 import 'package:flowery/feature/auth/data/model/login/user_model.dart';
 import 'package:flowery/feature/auth/data/model/login/user_response_model.dart';
 import 'package:flowery/feature/auth/data/model/register/register_response_model.dart';
@@ -18,13 +19,21 @@ import 'auth_repository_test.mocks.dart';
 
 @GenerateMocks([AuthDataSource, NetworkInfo])
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   late MockAuthDataSource authDataSource;
   late MockNetworkInfo networkInfo;
   late AuthRepo autRepo;
-
-  setUpAll(() {
+  var login = LoginRequest(email: 'email', password: 'password');
+  var register = RegisterRequest(
+    confirmPassword: 'confirm',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    email: 'email@gmail.com',
+    password: 'password',
+    phone: 'phone',
+    gender: 'gender',
+  );
+  var email = 'testEmail@gmail.com';
+  setUp(() {
     authDataSource = MockAuthDataSource();
     networkInfo = MockNetworkInfo();
     autRepo = AuthRepositoryImpl(
@@ -34,17 +43,7 @@ void main() {
     when(networkInfo.isConnected).thenAnswer((_) async => true);
   });
 
-  group('TODO: implement login and register', () {
-    var login = LoginRequest(email: 'email', password: 'password');
-    var register = RegisterRequest(
-      confirmPassword: 'confirm',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      email: 'email@gmail.com',
-      password: 'password',
-      phone: 'phone',
-      gender: 'gender',
-    );
+  group('TODO: implement test happy path login and register', () {
     test("should call login from auth data source", () async {
       // arrange
       var expectedResult = UserResponseModel(
@@ -102,19 +101,89 @@ void main() {
       verify(authDataSource.register(register)).called(1);
       expect(actual, isA<ApiSuccessResult<RegisterResponseModel>>());
     });
-    // test('should return error when no internet', () async {
-    //   // arrange
-    //   when(networkInfo.isConnected).thenAnswer((_) async => false);
-    //   when(authDataSource.login(login)).thenThrow(Exception());
-    //   // act
-    //   final actual = await autRepo.login(
-    //     LoginRequest(email: 'a', password: 'b'),
-    //   );
-    //
-    //   // assert
-    //   verifyNever(authDataSource.login(any));
-    //   expect(actual, 'no_internet_connection');
-    // });
+  });
+
+  group('TODO: implement test wrong path login and register', () {
+    test(
+      'should be return error when no internet with login function',
+      () async {
+        // arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(authDataSource.login(login)).thenThrow(Exception());
+        // act
+        final actualLogin = await autRepo.login(
+          LoginRequest(email: 'a', password: 'b'),
+        );
+        final actualRegister = await autRepo.register(
+          RegisterRequest(
+            email: 'a',
+            password: 'b',
+            firstName: 'c',
+            lastName: 'd',
+            confirmPassword: 'e',
+            phone: 'f',
+            gender: 'g',
+          ),
+        );
+
+        // assert
+        verifyNever(authDataSource.login(any));
+        verifyNever(authDataSource.register(any));
+        expect(actualLogin, isA<ApiResult<UserResponseModel>>());
+        expect(actualRegister, isA<ApiResult<RegisterResponseModel>>());
+      },
+    );
+
+    test(
+      'should be return error when no internet with register function',
+      () async {
+        // arrange
+        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(authDataSource.register(register)).thenThrow(Exception());
+        // act
+        final actualRegister = await autRepo.register(
+          RegisterRequest(
+            email: 'a',
+            password: 'b',
+            firstName: 'c',
+            lastName: 'd',
+            confirmPassword: 'e',
+            phone: 'f',
+            gender: 'g',
+          ),
+        );
+
+        // assert
+        verifyNever(authDataSource.register(any));
+        expect(actualRegister, isA<ApiResult<RegisterResponseModel>>());
+      },
+    );
+  });
+
+  group('TODO: implement test forget password', () {
+    test('should be call forget password from data source', () async {
+      // arrange
+      final expectedResult = OtpResponseModel(message: 'message', info: 'info');
+      provideDummy<OtpResponseModel>(expectedResult);
+      when(
+        authDataSource.forgetPassword(any),
+      ).thenAnswer((_) async => expectedResult);
+      // act
+      final actual = await autRepo.forgetPassword(email);
+      // assert
+      verify(authDataSource.forgetPassword(email)).called(1);
+      expect(actual, isA<ApiSuccessResult<OtpResponseModel>>());
+    });
+    test('should be return error when call forget password from data source', () async{
+      // arrange
+      when(networkInfo.isConnected).thenAnswer((_) async => false);
+      when(authDataSource.forgetPassword(any)).thenThrow(Exception());
+      // act
+      final actual = await autRepo.forgetPassword(email);
+      // assert
+      verifyNever(authDataSource.forgetPassword(any));
+      expect(actual, isA<ApiErrorResult<OtpResponseModel>>());
+    });
 
   });
 }
