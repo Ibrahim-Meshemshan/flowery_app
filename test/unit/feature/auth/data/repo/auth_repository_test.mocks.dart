@@ -100,6 +100,15 @@ class MockAuthDataSource extends _i1.Mock implements _i5.AuthDataSource {
             ),
           )
           as _i6.Future<_i4.OtpResponseModel>);
+
+  @override
+  _i6.Future<void> changePassword(String? password, dynamic confirmPassword) =>
+      (super.noSuchMethod(
+            Invocation.method(#changePassword, [password, confirmPassword]),
+            returnValue: _i6.Future<void>.value(),
+            returnValueForMissingStub: _i6.Future<void>.value(),
+          )
+          as _i6.Future<void>);
 }
 
 /// A class which mocks [NetworkInfo].

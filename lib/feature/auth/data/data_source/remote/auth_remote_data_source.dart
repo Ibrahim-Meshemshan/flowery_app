@@ -1,6 +1,7 @@
 import 'package:flowery/core/network/api_constant.dart';
 import 'package:flowery/feature/auth/data/data_source/remote/auth_data_source.dart';
 import 'package:flowery/feature/auth/domain/entity/register_request.dart';
+import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/network/api_services.dart';
 import '../../../domain/entity/login_request.dart';
@@ -44,6 +45,11 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
       data: {'email': email},
     );
     return OtpResponseModel.fromJson(response.data);
+  }
+
+  @override
+  Future<void> changePassword(String password, confirmPassword) async {
+    final response = await apiService.patch(url: ApiConstants.changePassword);
   }
   //
 

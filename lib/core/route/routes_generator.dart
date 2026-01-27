@@ -1,6 +1,7 @@
 import 'package:flowery/core/route/routes_names.dart';
 import 'package:flowery/feature/auth/presentation/ui/login/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import '../../feature/auth/presentation/ui/forget_password/screens/change_password_screen.dart';
 import '../../feature/auth/presentation/ui/forget_password/screens/forget_password_screen.dart';
 import '../../feature/auth/presentation/ui/forget_password/screens/otp_screen.dart';
 import '../../feature/auth/presentation/ui/register/screens/register_screen.dart';
@@ -19,6 +20,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
       case RoutesNames.otpScreen:
         return MaterialPageRoute(builder: (_) => OTPScreen());
+        case RoutesNames.changePasswordScreen:
+        return MaterialPageRoute(builder: (_) => ChangePasswordScreen());
       default:
         return unDefinedRoute();
     }

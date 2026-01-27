@@ -87,4 +87,20 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
             ),
           )
           as _i3.Future<_i4.ApiResult<_i10.OtpResponseModel>>);
+
+  @override
+  _i3.Future<_i4.ApiResult<void>> changePassword(
+    String? password,
+    dynamic confirmPassword,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#changePassword, [password, confirmPassword]),
+            returnValue: _i3.Future<_i4.ApiResult<void>>.value(
+              _i7.dummyValue<_i4.ApiResult<void>>(
+                this,
+                Invocation.method(#changePassword, [password, confirmPassword]),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.ApiResult<void>>);
 }

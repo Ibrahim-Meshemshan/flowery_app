@@ -98,6 +98,25 @@ class AuthCubit extends Cubit<AuthState> {
         );
     }
   }
+  // ======================= change password ==============================
+  Future<void> changePassword(String email) async {
+    emit(state.copyWith(changePassword: const BlocStatus.loading()));
+    final result = await _otpUseCase.call(email);
+
+    switch (result) {
+      case ApiSuccessResult():
+        emit(state.copyWith(changePassword: BlocStatus.success(data: result.data)));
+
+      case ApiErrorResult():
+        emit(
+          state.copyWith(
+            changePassword: BlocStatus.error(
+              message: result.apiErrorModel.messageKey,
+            ),
+          ),
+        );
+    }
+  }
 
   // ======================== logout ================================
   Future<void> logout() async {

@@ -36,4 +36,11 @@ class AuthRepositoryImpl extends BaseRepo implements AuthRepo {
   Future<ApiResult<OtpResponseModel>> forgetPassword(String email) {
     return callApi(() => authDataSource.forgetPassword(email));
   }
+
+  @override
+  Future<ApiResult<void>> changePassword(String password, confirmPassword) {
+    return callApi(
+      () => authDataSource.changePassword(password, confirmPassword),
+    );
+  }
 }

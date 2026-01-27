@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flowery/feature/auth/domain/entity/login_request.dart';
 import 'package:flowery/feature/auth/domain/entity/register_request.dart';
 
@@ -9,4 +10,5 @@ abstract class AuthDataSource {
   Future<UserResponseModel> login(LoginRequest login);
   Future<RegisterResponseModel> register(RegisterRequest register);
   Future<OtpResponseModel> forgetPassword(String email);
+  Future<void> changePassword(String password,confirmPassword);
 }

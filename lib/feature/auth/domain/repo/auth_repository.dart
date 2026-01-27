@@ -10,4 +10,5 @@ abstract class AuthRepo {
   Future<ApiResult<UserResponseModel>> login(LoginRequest login);
   Future<ApiResult<RegisterResponseModel>> register(RegisterRequest register);
   Future<ApiResult<OtpResponseModel>> forgetPassword(String email);
+  Future<ApiResult<void>> changePassword(String password,confirmPassword);
 }
