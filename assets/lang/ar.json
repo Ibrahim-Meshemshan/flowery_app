@@ -29,7 +29,6 @@
   "unauthorized": "غير مصرح",
   "forbidden": "ممنوع",
   "resource_not_found": "المورد غير موجود",
-  "login_successfully": "تم تسجيل الدخول بنجاح",
   "enter_your_email_associated": "يرجى إدخال بريدك الإلكتروني المرتبط بحسابك",
   "continuo": "متابعة",
   "otp_sent_to_your_email": "تم إرسال الرمز لبريدك الالكتروني",
@@ -40,7 +39,7 @@
   "didn't_receive_code": "لم تتلقى الكود؟",
   "password_contain_char": "يجب ألا تكون كلمة المرور فارغة، ويجب أن تحتوي على 6 أحرف كبيرة ورقم واحد على الأقل",
   "reset_password": "إعادة تعيين كلمة المرور",
-  "confirm": "تأكيد"
+  "confirm": "تأكيد",
   "login_successfully": "تم تسجيل الدخول بنجاح",
   "first_name": "الاسم",
   "last_name": "الكنية",

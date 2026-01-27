@@ -29,7 +29,6 @@
   "unauthorized": "Unauthorized",
   "forbidden": "Forbidden",
   "resource_not_found": "Resource not found",
-  "login_successfully": "Login Successfully",
   "enter_your_email_associated": "Please enter your email associated to\n your account",
   "continuo": "Continuo",
   "otp_sent_to_your_email": "OTP sent to your email",
@@ -40,7 +39,7 @@
   "didn't_receive_code": "Didn't receive code?",
   "reset_password": "Reset Password",
   "confirm": "Confirm",
-  "password_contain_char": "Password must not be empty and must contain 6 characters with upper case letter and one number at least "
+  "password_contain_char": "Password must not be empty and must contain 6 characters with upper case letter and one number at least ",
   "login_successfully": "Login Successfully",
   "first_name": "First name",
   "last_name": "Last name",

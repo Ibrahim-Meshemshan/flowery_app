@@ -22,6 +22,8 @@ import '../../feature/auth/data/data_source/remote/auth_remote_data_source.dart'
     as _i921;
 import '../../feature/auth/data/repo/auth_repository_impl.dart' as _i33;
 import '../../feature/auth/domain/repo/auth_repository.dart' as _i767;
+import '../../feature/auth/domain/usecase/change_password_use_case.dart'
+    as _i543;
 import '../../feature/auth/domain/usecase/login_use_case.dart' as _i805;
 import '../../feature/auth/domain/usecase/otp_use_case.dart' as _i661;
 import '../../feature/auth/domain/usecase/register_use_case.dart' as _i717;
@@ -66,6 +68,9 @@ extension GetItInjectableX on _i174.GetIt {
         authDataSource: gh<_i708.AuthDataSource>(),
         networkInfo: gh<_i932.NetworkInfo>(),
       ),
+    );
+    gh.factory<_i543.ChangePasswordUseCase>(
+      () => _i543.ChangePasswordUseCase(gh<_i767.AuthRepo>()),
     );
     gh.factory<_i805.LoginUseCase>(
       () => _i805.LoginUseCase(gh<_i767.AuthRepo>()),

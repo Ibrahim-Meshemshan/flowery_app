@@ -92,7 +92,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             forgetPassword: BlocStatus.error(
-              message: result.apiErrorModel.messageKey,
+              message: result.apiErrorModel.message,
             ),
           ),
         );
@@ -111,7 +111,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             changePassword: BlocStatus.error(
-              message: result.apiErrorModel.messageKey,
+              message: result.apiErrorModel.message,
             ),
           ),
         );
