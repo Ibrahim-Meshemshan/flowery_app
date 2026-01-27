@@ -7,8 +7,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/bloc_status/bloc_status.dart';
+import '../../../../core/dependency_injection/di.dart';
+import '../../../../core/storage/sharedpreferences_helper.dart';
+import '../../data/model/forget_password/otp_response_model.dart';
 import '../../data/model/login/user_response_model.dart';
 import '../../data/model/register/register_response_model.dart';
+import '../../domain/usecase/login_use_case.dart';
+import '../../domain/usecase/otp_use_case.dart';
+import '../../domain/usecase/register_use_case.dart';
 
 part 'auth_state.dart';
 
@@ -16,15 +22,17 @@ part 'auth_cubit.freezed.dart';
 
 @injectable
 class AuthCubit extends Cubit<AuthState> {
-  final AuthRepo _authRepo;
+  final LoginUseCase _loginUseCase;
+  final RegisterUseCase _registerUseCase;
+  final OtpUseCase _otpUseCase;
 
-  AuthCubit(this._authRepo) : super(AuthState());
+  AuthCubit(this._loginUseCase,this._registerUseCase,this._otpUseCase) : super(AuthState());
 
   // ======================= login ==============================
   Future<void> login(LoginRequest login) async {
     emit(state.copyWith(login: const BlocStatus.loading()));
 
-    final result = await _authRepo.login(login);
+    final result = await _loginUseCase.call(login);
 
     switch (result) {
       case ApiSuccessResult():
@@ -39,7 +47,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             login: BlocStatus.error(
-              message: result.apiErrorModel.message ?? "",
+              message: result.apiErrorModel.message,
             ),
           ),
         );
@@ -54,7 +62,7 @@ class AuthCubit extends Cubit<AuthState> {
   // ======================= register ==============================
   Future<void> register(RegisterRequest register) async {
     emit(state.copyWith(register: const BlocStatus.loading()));
-    final result = await _authRepo.register(register);
+    final result = await _registerUseCase.call(register);
 
     switch (result) {
       case ApiSuccessResult():
@@ -64,10 +72,55 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             register: BlocStatus.error(
-              message: result.apiErrorModel.message ?? "",
+              message: result.apiErrorModel.message,
             ),
           ),
         );
     }
+  }
+
+  // ======================= forget password ==============================
+  Future<void> forgetPassword(String email) async {
+    emit(state.copyWith(forgetPassword: const BlocStatus.loading()));
+    final result = await _otpUseCase.call(email);
+
+    switch (result) {
+      case ApiSuccessResult():
+        emit(state.copyWith(forgetPassword: BlocStatus.success(data: result.data)));
+
+      case ApiErrorResult():
+        emit(
+          state.copyWith(
+            forgetPassword: BlocStatus.error(
+              message: result.apiErrorModel.messageKey,
+            ),
+          ),
+        );
+    }
+  }
+  // ======================= change password ==============================
+  Future<void> changePassword(String email) async {
+    emit(state.copyWith(changePassword: const BlocStatus.loading()));
+    final result = await _otpUseCase.call(email);
+
+    switch (result) {
+      case ApiSuccessResult():
+        emit(state.copyWith(changePassword: BlocStatus.success(data: result.data)));
+
+      case ApiErrorResult():
+        emit(
+          state.copyWith(
+            changePassword: BlocStatus.error(
+              message: result.apiErrorModel.messageKey,
+            ),
+          ),
+        );
+    }
+  }
+
+  // ======================== logout ================================
+  Future<void> logout() async {
+    await getIt<SharedPreferencesHelper>().clearToken();
+    emit(AuthState());
   }
 }

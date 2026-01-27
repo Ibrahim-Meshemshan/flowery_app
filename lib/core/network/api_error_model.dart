@@ -1,31 +1,33 @@
-import 'dart:convert';
-
-ApiErrorModel apiErrorModelFromJson(String str) => ApiErrorModel.fromJson(json.decode(str));
-
-String apiErrorModelToJson(ApiErrorModel data) => json.encode(data.toJson());
 
 class ApiErrorModel {
-  String? status;
-  dynamic data;
-  String? message;
+  final String message;
+  final int? statusCode;
 
   ApiErrorModel({
-     this.status,
-     this.data,
-     this.message,
+    required this.message,
+    this.statusCode,
   });
 
-  factory ApiErrorModel.fromJson(Map<String, dynamic> json) => ApiErrorModel(
-    status: json["status"],
-    data: json["data_source"],
-    message: json["message"],
-  );
+  factory ApiErrorModel.fromJson(Map<String, dynamic> json, {int? statusCode}) {
 
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "data_source": data,
-    "message": message,
-  };
+    final dynamic errorData = json['error'] ?? json['message'] ?? 'unexpected_error';
+
+    return ApiErrorModel(
+      message: _formatErrorMessage(errorData),
+      statusCode: statusCode,
+    );
+  }
+
+  static String _formatErrorMessage(dynamic errorData) {
+    if (errorData is List) {
+      return errorData.join('\n');
+    }
+    if (errorData is String) {
+
+      return errorData.replaceAll('","', '\n').replaceAll('"', '');
+    }
+    return errorData.toString();
+  }
 }
 
 

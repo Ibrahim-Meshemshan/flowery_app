@@ -9,9 +9,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.centerTitle,
     required this.titleText,
     this.titleStyle,
+    this.iconColor
   });
 
-  final Color? backgroundColor;
+  final Color? backgroundColor, iconColor;
   final bool? centerTitle;
   final String titleText;
   final TextStyle? titleStyle;
@@ -21,6 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: backgroundColor ?? AppColors.primaryColor,
       centerTitle: centerTitle ?? false,
+      iconTheme: IconThemeData(color: iconColor ?? AppColors.whiteColor),
       title: Text(
         titleText,
         style:

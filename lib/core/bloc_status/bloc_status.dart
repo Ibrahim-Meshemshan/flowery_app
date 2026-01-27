@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'bloc_status.freezed.dart';
-
-
 
 enum Status { initial, loading, success, error }
 
@@ -32,11 +31,26 @@ extension BlocStatusX<T> on BlocStatus<T> {
   );
 
   bool get isInitial => this is _Initial<T>;
+
   bool get isLoading => this is _Loading<T>;
+
   bool get isSuccess => this is _Success<T>;
+
   bool get isError => this is _Error<T>;
 }
 
+extension BlocStatusAccessX<T> on BlocStatus<T> {
+  T get data {
+    return when(
+      success: (data) => data,
+      initial: () => throw StateError('No data: initial'),
+      loading: () => throw StateError('No data: loading'),
+      error: (_) => throw StateError('No data: error'),
+    );
+  }
+
+  String? get errorMessage => whenOrNull(error: (msg) => msg);
+}
 
 // todo:  ================ How to Use in class State ======================
 
@@ -55,7 +69,6 @@ extension BlocStatusX<T> on BlocStatus<T> {
 //     banners: const BlocStatus.initial(),
 //   );
 // }
-
 
 // ======================== from gemini   ===========================
 // @freezed
@@ -127,7 +140,6 @@ extension BlocStatusX<T> on BlocStatus<T> {
 //     );
 //   }
 // }
-
 
 // todo:  ================ How to Use in Ui ======================
 // BlocBuilder<HomeCubit, HomeState>(

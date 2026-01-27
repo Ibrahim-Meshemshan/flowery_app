@@ -3,5 +3,6 @@ class ApiConstants {
   static const String login = 'auth/signin';
   static const String register = 'auth/signup';
   static const String forgetPassword = 'auth/forgotPassword';
+  static const String changePassword = 'auth/change-password';
   static const String refreshToken = '';
 }

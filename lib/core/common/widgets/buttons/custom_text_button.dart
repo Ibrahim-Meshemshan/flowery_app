@@ -38,10 +38,10 @@ class CustomTextButton extends StatelessWidget {
           text,
           style:
               textStyle ??
-              AppTheme.lightMode.textTheme.titleMedium?.copyWith(
-                color: color ?? AppColors.blackColor,
+              AppTheme.lightMode.textTheme.titleMedium ?.copyWith(
+                color: color ?? AppColors.primaryColor,
                 fontWeight: FontWeight.bold,
-                decorationColor: underlineColor ?? AppColors.blackColor,
+                decorationColor: underlineColor ?? AppColors.primaryColor,
                 decoration: isUnderlined ? TextDecoration.underline : null,
               ),
         ),

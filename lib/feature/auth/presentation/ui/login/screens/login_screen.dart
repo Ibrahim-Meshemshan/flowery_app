@@ -9,6 +9,7 @@ import 'package:flowery/core/common/widgets/buttons/custom_text_button.dart';
 import 'package:flowery/core/common/widgets/sized_box/gap_sized.dart';
 import 'package:flowery/core/common/widgets/text_field/custom_text_form_field.dart';
 import 'package:flowery/core/route/routes_names.dart';
+import 'package:flowery/core/storage/sharedpreferences_helper.dart';
 import 'package:flowery/core/theme/app_colors.dart';
 import 'package:flowery/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +35,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    emailController = TextEditingController(
+      text: 'ibrahimabdullahmshmshan@gmail.com',
+    );
+    passwordController = TextEditingController(text: "Ibrahimabdullah \$21655");
     loginFocus = FocusNode();
     passwordFocus = FocusNode();
     super.initState();
@@ -57,9 +60,21 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         appBar: CustomAppBar(titleText: 'login'.tr(context)),
         body: BlocConsumer<AuthCubit, AuthState>(
-          listener: (context, state) {
+          listener: (context, state) async {
+            if (state.login.isError) {
+              AppUtils.snackBar(
+                context: context,
+                message: state.login.errorMessage?.tr(context) ?? '',
+                type: SnackType.error,
+              );
+            }
             if (state.login.isSuccess) {
-              NavigatorService.pushNamed(RoutesNames.home);
+              if (isCheckRemember) {
+                await getIt<SharedPreferencesHelper>().saveToken(
+                  state.login.data.token,
+                );
+              }
+              NavigatorService.pushNamed(RoutesNames.homeScreen);
               AppUtils.snackBar(
                 context: context,
                 message: 'login_successfully'.tr(context),
@@ -83,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       gapH16,
                       CustomTextFormField(
-                        maxLines: 3,
+                        enabled: !state.login.isLoading,
                         isEmail: true,
                         validator: (value) =>
                             AppValidation.validateEmail(value, context),
@@ -94,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       gapH20,
                       CustomTextFormField(
+                        enabled: !state.login.isLoading,
                         isPassword: true,
                         validator: (value) =>
                             AppValidation.validatePassword(value, context),
@@ -125,7 +141,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           CustomTextButton(
                             isUnderlined: true,
                             text: 'forget_password'.tr(context),
-                            onPressed: () {},
+                            onPressed: () =>
+                                NavigatorService.pushNamed(
+                                  RoutesNames.forgetPassword,
+                                ),
                           ),
                         ],
                       ),
@@ -151,10 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ?.copyWith(color: AppColors.hintGrey),
                         backgroundColor: AppColors.whiteColor,
                         text: 'continue_as_guest'.tr(context),
-                        isLoading: state.login.isLoading,
                         onPressed: () {
                           context.read<AuthCubit>().enterAsGuest();
-                          NavigatorService.pushNamed(RoutesNames.home);
+                          NavigatorService.pushNamed(RoutesNames.homeScreen);
                         },
                       ),
                       gapH24,
@@ -168,9 +186,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             underlineColor: AppColors.primaryColor,
                             color: AppColors.primaryColor,
                             text: 'register'.tr(context),
-                            onPressed: () {
-                              // NavigatorService.pushNamed()
-                            },
+                            onPressed: () =>
+                                NavigatorService.pushNamed(
+                                  RoutesNames.registerScreen,
+                                ),
                           ),
                         ],
                       ),

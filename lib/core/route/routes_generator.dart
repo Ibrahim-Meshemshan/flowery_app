@@ -1,21 +1,27 @@
 import 'package:flowery/core/route/routes_names.dart';
 import 'package:flowery/feature/auth/presentation/ui/login/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import '../../feature/auth/presentation/ui/forget_password/forget_password_screen.dart';
-import '../../feature/auth/presentation/ui/register/register_screen.dart';
+import '../../feature/auth/presentation/ui/forget_password/screens/change_password_screen.dart';
+import '../../feature/auth/presentation/ui/forget_password/screens/forget_password_screen.dart';
+import '../../feature/auth/presentation/ui/forget_password/screens/otp_screen.dart';
+import '../../feature/auth/presentation/ui/register/screens/register_screen.dart';
 import '../../feature/home_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RoutesNames.home:
+      case RoutesNames.homeScreen:
         return MaterialPageRoute(builder: (_) => HomeScreen());
-      case RoutesNames.login:
+      case RoutesNames.loginScreen:
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case RoutesNames.register:
+      case RoutesNames.registerScreen:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
       case RoutesNames.forgetPassword:
         return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+      case RoutesNames.otpScreen:
+        return MaterialPageRoute(builder: (_) => OTPScreen());
+        case RoutesNames.changePasswordScreen:
+        return MaterialPageRoute(builder: (_) => ChangePasswordScreen());
       default:
         return unDefinedRoute();
     }

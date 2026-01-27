@@ -39,14 +39,12 @@ class AppUtils {
                   : AppColors.redColor,
             ),
             gapW4,
-            Expanded(
-              child: Text(
-                message,
-                style: TextStyle(
-                  color: AppColors.blackColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+            Text(
+              message,
+              style: TextStyle(
+                color: AppColors.blackColor,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
